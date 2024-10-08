@@ -62,6 +62,7 @@ int test_pointer_para() {
     } else {
         return 2;
     }
+	
 }
 
 int test_read();
@@ -1206,7 +1207,7 @@ UP_DATA_TIME_1 g_strUpDataTime_1[6][5];
 /*
 unsigned int fModifyTime_1(unsigned int addr,unsigned char num,unsigned char step)
 {
-	//¶şÎ¬½á¹¹Ìå
+	//äºŒç»´ç»“æ„ä½“
     unsigned int n_uiTime;
     //n_uiTime = fReadInt(addr);
 	if(g_strUpDataTime_1[num].DATA[step].data[10]==10)
@@ -1214,7 +1215,7 @@ unsigned int fModifyTime_1(unsigned int addr,unsigned char num,unsigned char ste
 		return g_strUpDataTime_1[num].DATA[step].a;
 		
 	}
-    if(g_strUpDataTime_1[step].type == 0xaa)/*Ìæ»»ĞÂµÄÊ±¼ä*//*
+    if(g_strUpDataTime_1[step].type == 0xaa)/*æ›¿æ¢æ–°çš„æ—¶é—´*//*
     {
         return g_strUpDataTime_1[step].time;
     }
@@ -1289,14 +1290,14 @@ unsigned int g_uiSatChkTimerFlag;
 #define WORK_TABLE_NUM 33
 void fDealBrocTimeInfo(unsigned short msp)
 {
-	//¾ø¶ÔµØÖ·
+	//ç»å¯¹åœ°å€
     unsigned short dp,i;
     unsigned int n_uiEomTime,n_uiRandomDelay;
     unsigned short n_usChkTimeType;
     unsigned char n_ucRec,n_ucCur;
     unsigned char n_ucTempBrocTime[6];
     dp = aceMemRead(msp + 2);
-    n_uiEomTime = aceMemRead(msp + 1);/*¶ÁÈ¡ÏûÏ¢Ê±¼ä±êÇ©*/
+    n_uiEomTime = aceMemRead(msp + 1);/*è¯»å–æ¶ˆæ¯æ—¶é—´æ ‡ç­¾*/
      
     for(i = 0; i < 4; i = i + 1)
     {
@@ -1318,7 +1319,7 @@ void fDealBrocTimeInfo(unsigned short msp)
         n_uiRandomDelay = aceMemRead(Time_Tag_REG);
         aceRegWrite(Time_Tag_REG,0);/*clear ace time tag register,and clear time rest*/
         g_uiSysTime[2] = 0;
-        /*²¹³¥1553B´«ÊäÊ±¼äºÍÓï¾ä´¦ÀíÊ±¼ä*/
+        /*è¡¥å¿1553Bä¼ è¾“æ—¶é—´å’Œè¯­å¥å¤„ç†æ—¶é—´*/
         if(n_uiRandomDelay >= n_uiEomTime)
         {
             n_uiRandomDelay = n_uiRandomDelay - n_uiEomTime;
@@ -1327,10 +1328,10 @@ void fDealBrocTimeInfo(unsigned short msp)
         {
             n_uiRandomDelay = 0x10000-n_uiEomTime + n_uiRandomDelay;
         }
-        n_uiRandomDelay = (n_uiRandomDelay << 6) +80;/*´«Êä1Mbps£¬´«Êä8×Ö½Ú´ó¸ÅĞèÒªµÄÊ±¼ä£¬µ¥Î»us*/
-        if((n_uiRandomDelay % 100)>=50)/*ËÄÉáÎåÈë*/
+        n_uiRandomDelay = (n_uiRandomDelay << 6) +80;/*ä¼ è¾“1Mbpsï¼Œä¼ è¾“8å­—èŠ‚å¤§æ¦‚éœ€è¦çš„æ—¶é—´ï¼Œå•ä½us*/
+        if((n_uiRandomDelay % 100)>=50)/*å››èˆäº”å…¥*/
         {
-            n_uiRandomDelay = n_uiRandomDelay/100;/*100usµÄ¼ÆÊı*/
+            n_uiRandomDelay = n_uiRandomDelay/100;/*100usçš„è®¡æ•°*/
             n_uiRandomDelay = n_uiRandomDelay + 1;  
         }
         else
@@ -1362,10 +1363,10 @@ unsigned short g_usUpPromPakFlag;
 unsigned short g_usInjectDataBuf[150];
 unsigned int g_uiUploadLen;
 unsigned int g_uiNewCodeBuf[30];
-unsigned short g_usImmEventTable[10][5];/* Á¢¼´Ö¸Áî±í */
+unsigned short g_usImmEventTable[10][5];/* ç«‹å³æŒ‡ä»¤è¡¨ */
 void fDataInjectMove(UP_DATA_TIME_1 **n_uiEomTime, int ks)
 {
-	//²»Ã÷Ô­Òò
+	//ä¸æ˜åŸå› 
     unsigned short n_usPakCnt, n_usPakFlag;
     unsigned short n_usIdx,n_usIdy;
     unsigned int n_uiKdx;
@@ -1382,14 +1383,14 @@ void fDataInjectMove(UP_DATA_TIME_1 **n_uiEomTime, int ks)
      
 /*  unsigned int n_uiSrcAddr;*/
      
-    n_usPakFlag = g_usInjectDataBuf[1] & 0xC000;  /* ·Ö×é±êÊ¶ */
-    n_usPakCnt  = g_usInjectDataBuf[1] & 0x3FFF;    /* °üĞòºÅ */
-    if(0xC000 == n_usPakFlag)/* ¶ÀÁ¢°ü */
+    n_usPakFlag = g_usInjectDataBuf[1] & 0xC000;  /* åˆ†ç»„æ ‡è¯† */
+    n_usPakCnt  = g_usInjectDataBuf[1] & 0x3FFF;    /* åŒ…åºå· */
+    if(0xC000 == n_usPakFlag)/* ç‹¬ç«‹åŒ… */
     {
-        g_ucInjectFrameNum = g_ucInjectFrameNum + 1;/* Êı¾İ×¢ÈëÖ¡¼ÆÊı¼Ó1 */
-        if(g_usInjectDataBuf[3] == 0x000A)/*¹¦ÄÜ×¢Êı-Á¢¼´Ö´ĞĞÊı¾İ×¢Èë*/
+        g_ucInjectFrameNum = g_ucInjectFrameNum + 1;/* æ•°æ®æ³¨å…¥å¸§è®¡æ•°åŠ 1 */
+        if(g_usInjectDataBuf[3] == 0x000A)/*åŠŸèƒ½æ³¨æ•°-ç«‹å³æ‰§è¡Œæ•°æ®æ³¨å…¥*/
         {
-            if(g_usInjectDataBuf[2] == 0x000D)/*³£ÓÃÊı¾İ×¢ÈëÖ¸Áî°ü³¤¶È¹Ì¶¨Îª0x0d*/
+            if(g_usInjectDataBuf[2] == 0x000D)/*å¸¸ç”¨æ•°æ®æ³¨å…¥æŒ‡ä»¤åŒ…é•¿åº¦å›ºå®šä¸º0x0d*/
             {
                     if(g_ucImmEventCnt < IMMEVENT_NUM )
                     {
@@ -1397,12 +1398,12 @@ void fDataInjectMove(UP_DATA_TIME_1 **n_uiEomTime, int ks)
                         {
                             if(g_usImmEventTable[n_usIdx][0] == 0)
                             {
-                                g_usImmEventTable[n_usIdx][1] = g_usInjectDataBuf[4];/* Á¢¼´Ö¸ÁîÄÚÈİ--Âë×Ö */
-                                g_usImmEventTable[n_usIdx][2] = g_usInjectDataBuf[5];/* Á¢¼´Ö¸ÁîÄÚÈİ--Ö¸ÁîÄÚÈİ */
-                                g_usImmEventTable[n_usIdx][3] = g_usInjectDataBuf[6];/* Á¢¼´Ö¸ÁîÄÚÈİ--Ö¸ÁîÄÚÈİ */
-                                g_usImmEventTable[n_usIdx][4] = g_usInjectDataBuf[7];/* Á¢¼´Ö¸ÁîÄÚÈİ--Ö¸ÁîÄÚÈİ */
-                                g_usImmEventTable[n_usIdx][5] = g_usInjectDataBuf[8];/* Á¢¼´Ö¸ÁîÄÚÈİ--EEPROMÖ¸Áî±àºÅ */
-                                g_usImmEventTable[n_usIdx][0] = 0x5A;/* ÖÃÉÏ¸üĞÂ±êÊ¶ */
+                                g_usImmEventTable[n_usIdx][1] = g_usInjectDataBuf[4];/* ç«‹å³æŒ‡ä»¤å†…å®¹--ç å­— */
+                                g_usImmEventTable[n_usIdx][2] = g_usInjectDataBuf[5];/* ç«‹å³æŒ‡ä»¤å†…å®¹--æŒ‡ä»¤å†…å®¹ */
+                                g_usImmEventTable[n_usIdx][3] = g_usInjectDataBuf[6];/* ç«‹å³æŒ‡ä»¤å†…å®¹--æŒ‡ä»¤å†…å®¹ */
+                                g_usImmEventTable[n_usIdx][4] = g_usInjectDataBuf[7];/* ç«‹å³æŒ‡ä»¤å†…å®¹--æŒ‡ä»¤å†…å®¹ */
+                                g_usImmEventTable[n_usIdx][5] = g_usInjectDataBuf[8];/* ç«‹å³æŒ‡ä»¤å†…å®¹--EEPROMæŒ‡ä»¤ç¼–å· */
+                                g_usImmEventTable[n_usIdx][0] = 0x5A;/* ç½®ä¸Šæ›´æ–°æ ‡è¯† */
                                 g_ucImmEventCnt = g_ucImmEventCnt + 1;
                                 break;
                             }
@@ -1411,21 +1412,21 @@ void fDataInjectMove(UP_DATA_TIME_1 **n_uiEomTime, int ks)
                     else
                     {
                         g_ucInjectErrCnt = g_ucInjectErrCnt + 1;
-                        g_ucInjectErrType = 0x77;/* ÊÂ¼ş±íÂú */
+                        g_ucInjectErrType = 0x77;/* äº‹ä»¶è¡¨æ»¡ */
                     }
             }
             else
             {
                 g_ucInjectErrCnt = g_ucInjectErrCnt + 1;
-                g_ucInjectErrType = 0x22;/* Êı¾İ×¢ÈëÖ¸Áî³¤¶È´íÎó */
+                g_ucInjectErrType = 0x22;/* æ•°æ®æ³¨å…¥æŒ‡ä»¤é•¿åº¦é”™è¯¯ */
             }
         }
-        else if(n_uiEomTime[0][1].DATA->data[4]== 0x000B)/*¹¦ÄÜ×¢Êı-´óĞÍÊı¾İ¿éÊı¾İ×¢Èë*/
+        else if(n_uiEomTime[0][1].DATA->data[4]== 0x000B)/*åŠŸèƒ½æ³¨æ•°-å¤§å‹æ•°æ®å—æ•°æ®æ³¨å…¥*/
         {
-            n_usPakLen = g_usInjectDataBuf[2] + 1;/* ×Ö½Ú³¤¶È =  ¹¦ÄÜÊ¶±ğ2×Ö½Ú+Êı¾İÄÚÈİN×Ö½Ú+4×Ö½ÚÊı¾İÄÚÈİĞ£ÑéºÍ+2×Ö½ÚÊı¾İ°üĞ£ÑéºÍ */
+            n_usPakLen = g_usInjectDataBuf[2] + 1;/* å­—èŠ‚é•¿åº¦ =  åŠŸèƒ½è¯†åˆ«2å­—èŠ‚+æ•°æ®å†…å®¹Nå­—èŠ‚+4å­—èŠ‚æ•°æ®å†…å®¹æ ¡éªŒå’Œ+2å­—èŠ‚æ•°æ®åŒ…æ ¡éªŒå’Œ */
             n_usLenTmp1 = (n_usPakLen-8)%4;
-            n_usLenTmp2 = (n_usPakLen-4)/2;/*Êı¾İÄÚÈİ+Êı¾İÄÚÈİĞ£ÑéºÍµÄ2×Ö³¤¶È*/
-            g_uiUploadLen = (n_usPakLen-8)/4;/*Êı¾İÄÚÈİµÄ4×Ö½Ú³¤¶È*/
+            n_usLenTmp2 = (n_usPakLen-4)/2;/*æ•°æ®å†…å®¹+æ•°æ®å†…å®¹æ ¡éªŒå’Œçš„2å­—é•¿åº¦*/
+            g_uiUploadLen = (n_usPakLen-8)/4;/*æ•°æ®å†…å®¹çš„4å­—èŠ‚é•¿åº¦*/
             if((n_usPakLen>=12)&&(n_usPakLen<=248)&&(n_usLenTmp1 == 0))
             {
                 pBuf = (unsigned short*)&g_uiNewCodeBuf[0];
@@ -1434,27 +1435,27 @@ void fDataInjectMove(UP_DATA_TIME_1 **n_uiEomTime, int ks)
                     pBuf[n_usIdy] =  g_usInjectDataBuf[n_usIdy+4];
                 }
                 g_ucInjectExeCnt = g_ucInjectExeCnt + 1;
-/*              g_ucInjectFrameNum = g_ucInjectFrameNum + 1;*//* Êı¾İ×¢ÈëÖ¡¼ÆÊı¼Ó1 */
+/*              g_ucInjectFrameNum = g_ucInjectFrameNum + 1;*//* æ•°æ®æ³¨å…¥å¸§è®¡æ•°åŠ 1 */
 /*              g_uiNewCodeSum = 0;*/
-                g_ucNewCodeFlag = 0x3c;/*¿ªÊ¼¶ÔÊı¾İÄÚÈİ»º³åÇø½øĞĞĞ£Ñé*/
+                g_ucNewCodeFlag = 0x3c;/*å¼€å§‹å¯¹æ•°æ®å†…å®¹ç¼“å†²åŒºè¿›è¡Œæ ¡éªŒ*/
 /*              logMsg("g_ucNewCodeFlag = 0x3c !!!!\n",0,0,0,0,0,0);*/
             }
             else
             {
                 g_ucInjectErrCnt = g_ucInjectErrCnt + 1;
-                g_ucInjectErrType = 0xDD;/* Êı¾İ×¢ÈëÄÚÈİ´íÎó-ĞŞ¸Ä³¤¶È´íÎó */
+                g_ucInjectErrType = 0xDD;/* æ•°æ®æ³¨å…¥å†…å®¹é”™è¯¯-ä¿®æ”¹é•¿åº¦é”™è¯¯ */
             }
         }
         else
         {
             g_ucInjectErrCnt = g_ucInjectErrCnt + 1;
-            g_ucInjectErrType = 0x44;/* Êı¾İ×¢Èë¹¦ÄÜÊ¶±ğ´íÎó */
+            g_ucInjectErrType = 0x44;/* æ•°æ®æ³¨å…¥åŠŸèƒ½è¯†åˆ«é”™è¯¯ */
         }
     }
-    else if(0x4000==n_uiEomTime[0][1].DATA->a && 0x4000==n_uiEomTime[0][1].DATA->b)/*Ê×°ü*/
+    else if(0x4000==n_uiEomTime[0][1].DATA->a && 0x4000==n_uiEomTime[0][1].DATA->b)/*é¦–åŒ…*/
     {
         g_usInjectMultCnt = 0;
-        if(g_usInjectDataBuf[2] == 0x00F9)/*³ÌĞòÉÏÔØ°ü³¤¶È¹Ì¶¨Îª0xF9*/
+        if(g_usInjectDataBuf[2] == 0x00F9)/*ç¨‹åºä¸Šè½½åŒ…é•¿åº¦å›ºå®šä¸º0xF9*/
         {
             if(n_usPakCnt == 0)
             {
@@ -1465,41 +1466,41 @@ void fDataInjectMove(UP_DATA_TIME_1 **n_uiEomTime, int ks)
                     {
                         pBuf[n_usIdy] = g_usInjectDataBuf[4+n_usIdy];
                     }
-                    g_uiNewCodeLeng = 123;  /* ÒÑ×¢Èë³ÌĞò´úÂëµÄ2×Ö³¤¶È */
-                    g_usInjectMultCnt = g_usInjectMultCnt+1;    /* Ê×°ü-Êı¾İ×¢Èë¶à°ü¼ÆÊıÖÃ1 */
-                    g_usUpPromPakFlag = 0x5555; /*°ü¿ØÖÆĞòÖÃÎªÊ×°ü*/
+                    g_uiNewCodeLeng = 123;  /* å·²æ³¨å…¥ç¨‹åºä»£ç çš„2å­—é•¿åº¦ */
+                    g_usInjectMultCnt = g_usInjectMultCnt+1;    /* é¦–åŒ…-æ•°æ®æ³¨å…¥å¤šåŒ…è®¡æ•°ç½®1 */
+                    g_usUpPromPakFlag = 0x5555; /*åŒ…æ§åˆ¶åºç½®ä¸ºé¦–åŒ…*/
                     g_ucInjectExeCnt = g_ucInjectExeCnt + 1;
                 }
                 else
                 {
                     g_ucInjectErrCnt = g_ucInjectErrCnt + 1;
-                    g_ucInjectErrType = 0x44;/* Êı¾İ×¢Èë¹¦ÄÜÊ¶±ğ´íÎó */
+                    g_ucInjectErrType = 0x44;/* æ•°æ®æ³¨å…¥åŠŸèƒ½è¯†åˆ«é”™è¯¯ */
                 }
             }
             else
             {
                 g_ucInjectErrCnt = g_ucInjectErrCnt + 1;
-                g_ucInjectErrType = 0x99;/*Ê×°ü°üĞòºÅ²»Îª0*/
+                g_ucInjectErrType = 0x99;/*é¦–åŒ…åŒ…åºå·ä¸ä¸º0*/
             }
         }
         else
         {
             g_ucInjectErrCnt = g_ucInjectErrCnt + 1;
-            g_ucInjectErrType = 0x22;/* Êı¾İ×¢ÈëÖ¸Áî³¤¶È´íÎó */
+            g_ucInjectErrType = 0x22;/* æ•°æ®æ³¨å…¥æŒ‡ä»¤é•¿åº¦é”™è¯¯ */
         }
     }
-    else/*ÖĞ¼ä°ü*/
+    else/*ä¸­é—´åŒ…*/
     {
-        if(g_usInjectDataBuf[2] == 0x00F9)/*³ÌĞòÉÏÔØ°ü³¤¶È¹Ì¶¨Îª0xF9*/
+        if(g_usInjectDataBuf[2] == 0x00F9)/*ç¨‹åºä¸Šè½½åŒ…é•¿åº¦å›ºå®šä¸º0xF9*/
         {
 
 			g_ucInjectErrCnt = g_ucInjectErrCnt + 1;
-			g_ucInjectErrType = 0xAA;/*ÖĞ¼ä°üĞò´íÎó*/
+			g_ucInjectErrType = 0xAA;/*ä¸­é—´åŒ…åºé”™è¯¯*/
         }
         else
         {
             g_ucInjectErrCnt = g_ucInjectErrCnt + 1;
-            g_ucInjectErrType = 0x22;/* Êı¾İ×¢ÈëÖ¸Áî³¤¶È´íÎó */
+            g_ucInjectErrType = 0x22;/* æ•°æ®æ³¨å…¥æŒ‡ä»¤é•¿åº¦é”™è¯¯ */
         }
     }
     return;
@@ -1526,10 +1527,10 @@ UP_DATA_TIME g_strUpDataTime[WORK_TABLE_NUM][64];
 
 unsigned int fModifyTime(unsigned int addr,unsigned char num,unsigned char step)
 {
-	//¶şÎ¬½á¹¹Ìå
+	//äºŒç»´ç»“æ„ä½“
     unsigned int n_uiTime;
     n_uiTime = 1;
-    if(g_strUpDataTime[num][step].type == 0xaa)/*Ìæ»»ĞÂµÄÊ±¼ä*/
+    if(g_strUpDataTime[num][step].type == 0xaa)/*æ›¿æ¢æ–°çš„æ—¶é—´*/
     {
         return g_strUpDataTime[num][step].time;
     }
